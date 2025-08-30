@@ -3,19 +3,22 @@
   <head>
     <meta charset="UTF-8" />
     <title>Popup</title>
+    <style>
+      body {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 200px;
+        width: 200px;
+        background-color: lightgray;
+        flex-direction: column;
+        gap: 10px;
+      }
+    </style>
   </head>
-  <style>
-    body {
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      height: 200px;
-      width: 200px;
-      background-color: lightgray;
-    }
-  </style>
   <body>
-    <button id="hello world">Click me to say hello</button>
+    <button id="auth">Autenticar com Google</button>
+    <ul id="sheets"></ul>
     <script src="popup.js"></script>
   </body>
 </html>

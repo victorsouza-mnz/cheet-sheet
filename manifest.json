@@ -3,7 +3,11 @@
   "name": "CheetSheet",
   "version": "1.0",
   "description": "A chrome extension helps you to build your sheets",
-  "permissions": ["storage"],
+  "permissions": ["storage", "identity"],
+  "oauth2": {
+    "client_id": "633656739948-ar7525ams68d4ndaqlvhhr8m09pjkvue.apps.googleusercontent.com",
+    "scopes": ["https://www.googleapis.com/auth/spreadsheets"]
+  },
   "action": {
     "default_popup": "popup.html",
     "default_icon": {
