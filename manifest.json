@@ -1,0 +1,16 @@
+{
+  "manifest_version": 3,
+  "name": "CheetSheet",
+  "version": "1.0",
+  "description": "A chrome extension helps you to build your sheets",
+  "permissions": ["storage"],
+  "action": {
+    "default_popup": "popup.html",
+    "default_icon": {
+      "128": "icons/cheet.png"
+    }
+  },
+  "background": {
+    "service_worker": "background.js"
+  }
+}
