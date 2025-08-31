@@ -4,6 +4,7 @@
   "version": "1.0",
   "description": "A chrome extension helps you to build your sheets",
   "permissions": ["storage", "identity"],
+  "host_permissions": ["https://api.deepseek.com/*", "https://api.groq.com/*"],
   "oauth2": {
     "client_id": "633656739948-gisc279mm047abupnaau3mmgloc2ft9c.apps.googleusercontent.com",
     "scopes": [

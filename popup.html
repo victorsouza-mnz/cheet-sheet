@@ -3,35 +3,40 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>CheetSheet - Google Sheets Integration</title>
+    <title>CheetSheet - Integração com Groq</title>
     <style>
       body {
-        width: 350px;
+        width: 500px;
         padding: 16px;
         font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
         background-color: #f8f9fa;
         color: #202124;
       }
+
       .container {
         display: flex;
         flex-direction: column;
         gap: 16px;
       }
+
       header {
         display: flex;
         align-items: center;
         gap: 12px;
         margin-bottom: 8px;
       }
+
       h1 {
         font-size: 18px;
         margin: 0;
         color: #1a73e8;
       }
+
       .logo {
         width: 32px;
         height: 32px;
       }
+
       button {
         background-color: #1a73e8;
         color: white;
@@ -42,12 +47,20 @@
         font-weight: 500;
         transition: background-color 0.2s;
       }
+
       button:hover {
         background-color: #1565c0;
       }
+
       button:active {
         background-color: #0d47a1;
       }
+
+      button:disabled {
+        background-color: #9e9e9e;
+        cursor: not-allowed;
+      }
+
       .sheets-container {
         background-color: white;
         border-radius: 8px;
@@ -56,36 +69,44 @@
         max-height: 300px;
         overflow-y: auto;
       }
+
       ul {
         list-style-type: none;
         padding: 0;
         margin: 0;
       }
+
       li {
         padding: 10px;
         border-bottom: 1px solid #e8eaed;
         cursor: pointer;
         transition: background-color 0.2s;
       }
+
       li:hover {
         background-color: #f1f3f4;
       }
+
       li:last-child {
         border-bottom: none;
       }
+
       .sheet-name {
         font-weight: 500;
         margin-bottom: 4px;
       }
+
       .sheet-details {
         font-size: 12px;
         color: #5f6368;
       }
+
       .loading {
         text-align: center;
         padding: 20px;
         color: #5f6368;
       }
+
       .error {
         color: #d93025;
         padding: 10px;
@@ -93,46 +114,100 @@
         border-radius: 4px;
         font-size: 14px;
       }
-      /* sheet panel styles aligned with existing pattern */
-      h2 {
-        font-size: 16px;
-        margin: 8px 0 0 0;
-        color: #202124;
-      }
-      #sheetPanel {
-        display: none;
-      }
-      .link {
-        color: #1a73e8;
-        text-decoration: none;
-        font-weight: 500;
+
+      .success {
+        color: #0f9d58;
+        padding: 10px;
+        background-color: #e6f4ea;
+        border-radius: 4px;
         font-size: 14px;
       }
-      .link:hover {
-        text-decoration: underline;
+
+      .sheet-panel {
+        display: none;
       }
-      .stack {
+
+      .panel-header {
         display: flex;
-        flex-direction: column;
-        gap: 8px;
-        margin-top: 12px;
+        align-items: center;
+        justify-content: space-between;
+        margin-bottom: 16px;
       }
-      .input {
+
+      .panel-title {
+        font-size: 16px;
+        font-weight: 500;
+      }
+
+      textarea {
         width: 100%;
+        height: 80px;
+        padding: 12px;
+        border: 1px solid #dadce0;
+        border-radius: 4px;
+        resize: vertical;
+        font-size: 14px;
+        margin-bottom: 12px;
+      }
+
+      .api-key-container {
+        background-color: #f8f9fa;
+        padding: 12px;
+        border-radius: 4px;
+        margin-bottom: 12px;
+        border: 1px solid #dadce0;
+      }
+
+      .api-key-input {
+        display: flex;
+        gap: 8px;
+        margin-bottom: 8px;
+      }
+
+      .api-key-input input {
+        flex: 1;
         padding: 8px;
         border: 1px solid #dadce0;
         border-radius: 4px;
         font-size: 14px;
       }
-      #sheetResult {
-        margin-top: 12px;
+
+      .provider-info {
+        background-color: #e8f0fe;
+        padding: 12px;
+        border-radius: 4px;
+        margin: 12px 0;
         font-size: 14px;
-        color: #202124;
+      }
+
+      .provider-info a {
+        color: #1a73e8;
+        text-decoration: none;
+      }
+
+      .provider-info a:hover {
+        text-decoration: underline;
+      }
+
+      .result-area {
+        background-color: white;
+        border: 1px solid #dadce0;
+        border-radius: 4px;
+        padding: 12px;
+        margin-top: 12px;
+        max-height: 300px;
+        overflow-y: auto;
+      }
+
+      .result-area pre {
+        white-space: pre-wrap;
+        font-family: "Consolas", "Monaco", monospace;
+        font-size: 13px;
+        margin: 0;
       }
     </style>
   </head>
   <body>
-    <!-- main screen -->
     <div class="container">
       <header>
         <svg class="logo" viewBox="0 0 24 24" fill="#1a73e8">
@@ -140,33 +215,71 @@
             d="M14 2H6c-1.1 0-2 .9-2 2v16c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2V8l-6-6zM6 20V4h7v5h5v11H6zm5-7.51l3.5 3.5-3.5 3.5v-2.5H8v-2h3v-2.5zm5 3.5l-3.5-3.5h2.5V9h2v3.49h2.5L16 16.5z"
           />
         </svg>
-        <h1>CheetSheet</h1>
+        <h1>CheetSheet - Integração com Groq</h1>
       </header>
 
-      <button id="auth">Conectar ao Google Sheets</button>
+      <div id="mainPanel">
+        <button id="auth">Conectar ao Google Sheets</button>
 
-      <div class="sheets-container">
-        <ul id="sheets"></ul>
-      </div>
-    </div>
+        <div class="sheets-container">
+          <ul id="sheets"></ul>
+        </div>
 
-    <!-- sheet screen -->
-    <div id="sheetPanel" class="sheets-container">
-      <button id="backBtn">← Voltar</button>
-      <h2 id="sheetTitle"></h2>
-      <a id="sheetLink" class="link" href="#" target="_blank"
-        >Abrir no Google Sheets</a
-      >
-      <div class="stack">
-        <input
-          type="text"
-          id="sheetPrompt"
-          class="input"
-          placeholder="Digite uma instrução para a planilha"
-        />
-        <button id="runSheetAI">Executar</button>
+        <div class="provider-info">
+          <strong>🚀 Usando Groq - Totalmente Grátis!</strong>
+          <p>Para usar, você precisa:</p>
+          <ol>
+            <li>
+              Acessar
+              <a href="https://console.groq.com/" target="_blank">Groq Cloud</a>
+            </li>
+            <li>Criar uma conta gratuita</li>
+            <li>Gerar uma API Key no dashboard</li>
+            <li>Colar a chave abaixo</li>
+          </ol>
+        </div>
+
+        <div class="api-key-container">
+          <label for="groqKey">Chave da API Groq:</label>
+          <div class="api-key-input">
+            <input
+              type="password"
+              id="groqKey"
+              placeholder="Cole sua API Key do Groq aqui"
+            />
+            <button id="saveGroqKey">Salvar</button>
+          </div>
+        </div>
       </div>
-      <div id="sheetResult"></div>
+
+      <div id="sheetPanel" class="sheet-panel">
+        <div class="panel-header">
+          <div class="panel-title" id="sheetTitle">Nome da Planilha</div>
+          <button id="backBtn">Voltar</button>
+        </div>
+
+        <a href="#" id="sheetLink" target="_blank"
+          >Abrir planilha no Google Sheets</a
+        >
+
+        <div style="margin: 16px 0">
+          <label for="sheetPrompt"
+            >O que você gostaria de fazer com os dados?</label
+          >
+          <textarea
+            id="sheetPrompt"
+            placeholder="Ex: Analise esses dados e me mostre tendências..."
+          ></textarea>
+        </div>
+
+        <button id="runSheetAI" style="width: 100%">
+          Analisar com Groq AI
+        </button>
+
+        <div class="result-area">
+          <pre id="sheetResult">A resposta aparecerá aqui...</pre>
+        </div>
+      </div>
     </div>
 
     <script src="popup.js"></script>
